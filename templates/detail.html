@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block customcss %}<!--cssを個別に呼び出したい時に使う-->
+
+{% endblock customcss %}
+
+{% block header %}
+<div class="alert alert-primary" role="alert" style="text-align: center">
+STECH~大学を超えたエンジニアの就活サークル~
+</div>
+{% endblock header %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<div class='container'>
+    <div class="alert alert-success" role="alert">
+        <p>title:{{object.title}}</p>
+        <!-- <p>投稿者:{{object.auther}}</p> -->
+        <p><img src="{{ object.snsimage.url }}" width=100></p><!--画像のurlを持ってくる-->
+        <a href="{% url 'good' object.pk %}" class="btn btn-primary" role="button" aria-pria-pressed="true">いいね😆</a>
+        <a href="{% url 'read' object.pk %}" class="btn btn-secondary" role="button" aria-pria-pressed="true">今度話ましょう！😉</a>
+    </div>
+</div>
+{% else %}
+ログアウトされてるけん、もう1回ログインしんさいね。
+{% endif %}
+{% endblock content %}
+
+

@@ -1,0 +1,21 @@
+.inline-block_test{
+    display: inline-block;      /* インラインブロック要素にする */
+    /* background-color:  #ccc;    背景色指定 */
+    padding:  20px;             /* 余白指定 */
+    /* position: relative;
+    top: 50%; */
+}
+
+.login_size{
+    width:300px; 
+    margin: 0 auto;
+    max-width: 500px;
+    
+}
+
+.login_position{
+    transform: translate(8%,50%);
+    /* position: absolute;
+    left: 50%;
+    top: 50%; */
+}
