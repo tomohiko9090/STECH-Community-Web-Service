@@ -22,7 +22,9 @@ def signupfunc(request):
             return render(request, 'signup.html', {'error':'このユーザは既に存在しているわ。他のにして頂戴。'})
         except:#存在していない場合
             user = User.objects.create_user(username2, '', password2)#ここで初めて新規アカウントが作られる！
-            return render(request, 'signup.html', {'some':100})
+            ## 【変更箇所：高橋】
+            ## return render(request, 'signup.html', {'some':100})
+            return redirect('login')
     #functionを使う場合は、renderでtemplate(引数2)とDB(引数3)を組み合わせる
     return render(request, 'signup.html', {'some':100})
     
@@ -72,5 +74,13 @@ def readfunc(request, pk):
 class BoardCreate(CreateView):
     template_name = 'create.html'
     model = BoardModel
-    fields = ('title', 'birthday', 'content', 'auther', 'snsimage')#記入する内容
+    fields = ('title', 'content', 'auther', 'snsimage')#記入する内容
     success_url = reverse_lazy('list')#データが作成した後に遷移させる
+
+def like_listfunc(request):
+    object_list = BoardModel.objects.all()
+    return render(request, 'like_list.html', {'object_list':object_list})
+
+def chat_listfunc(request):
+    object_list = BoardModel.objects.all()
+    return render(request, 'chat_list.html', {'object_list':object_list})
