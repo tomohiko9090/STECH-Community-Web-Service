@@ -4,7 +4,7 @@
 
 {% block header %}
 <div class="alert alert-primary" role="alert">
-    新しい投稿
+    新規プロフィール
 </div>
 {% endblock header %}
 
@@ -15,8 +15,10 @@
 {% if user.is_authenticated %}
 <!-- ポストするフォーム。typeがテキストとファイルどちらもあるため、multipart/form-data設定 -->
 <form method='POST' enctype="multipart/form-data">{% csrf_token %}
-<p>お住まい・<input type='text' name='title'></p>
-<p>自己紹介・・・<input type='text' name='content'></p>
+<p>お住まい<input type='text' name='title'></p>
+<p>誕生日<input type='text' name='birthday'></p>
+<p>自己紹介<input type='text' name='content'></p>
+<p>写真をアップロード</p>
 <p><input type="file" name='snsimage'></p>
 <!-- hiddenは表には見えないけど裏で動かす時に使う。valueで中のデータを指示　 -->
 <input type="hidden" name='auther' value="{{ user.username }}">
