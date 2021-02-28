@@ -1,49 +1,29 @@
 {% extends 'base.html' %}
 
-{% block customcss %}<!--cssを個別に呼び出したい時に使う-->
+{% block customcss %}
 
 {% endblock customcss %}
 
 
 
-{% block header %}
-<div class="jumbotron jumbotron-fluid">
-    <div class="container">
-      <h1 class="display-4">STECH</h1>
-      <p class="lead">~大学を超えたエンジニアの就活サークル~
-      </p>
-    </div>
+{% block content_title %}
+<div class="jumbotron jumbotron-fluid my-2">
+  <div class="container">
+    <h1 class="display-4">STECH</h1>
+    <p class="lead">~大学を超えたエンジニアの就活サークル~
+    </p>
   </div>
-  <!-- 画像を載っける -->
-  {% load static %}
-  <div style="text-align: center">
-    <img src="{% static  'network for STECH.png'%}" width="500">
-  </div>
-
-<p>
-  <a href="" class="btn btn-warning" role="button" aria-pria-pressed="true">
-    My favorite 
-  </a>
-  <a href="{% url 'like_list' %}" class="btn btn-warning" role="button" aria-pria-pressed="true">
-    いいね
-  </a>
-  <a href="{% url 'chat_list' %}" class="btn btn-warning" role="button" aria-pria-pressed="true">
-    お話しましょう
-  </a>
-  <a href="{% url 'create' %}" class="btn btn-warning" role="button" aria-pria-pressed="true">
-    プロフィール登録はこちら
-  </a>
-  
-</p>
 </div>
+<!-- 画像を載っける -->
+{% load static %}
+<div style="text-align: center">
+  <img src="{% static  'network for STECH.png'%}" width="500">
+</div>
+
 <div style='text-align:center'>
-  <h2>STECH積極性ランキング1~10位🏆　　　</h2>
+  <h2>STECH積極性ランキング1~10位🏆</h2>
 </div>
-{% endblock header %}
-
-
-
-
+{% endblock content_title %}
 
 
 {% block content %}
@@ -51,31 +31,33 @@
 {% if user.is_authenticated %}
 <div class='container'>
     {% for item in object_list %}
-      <div class="alert alert-success" role="alert">
-        
+      <div class="row alert alert-success" role="alert">
+
         {% load static %}
         <link href="{% static 'test.css' %}" rel="stylesheet">
 
-        <div class="inline-block_test">
-          <img src="{% static  'network for STECH.png'%}" width="200">
+        <div class="col-sm-2 inline-block_test">
+          <img src="{% static  'network for STECH.png'%}" width="150">
         </div>
-        
+
         <div class="inline-block_test">
-          <p><font size="5"></p><a href="{% url 'detail' item.pk %}">{{ item.title }}</a></font></p>
+          <p><font size="5"></p><a href="{% url 'detail' item.pk %}">{{ item.title }}</a></font size></p>
           <!-- <p>投稿者:{{item.auther}}</p> -->
-          <p>学年:</p>
-          <p>希望職種:</p>
+
+          <div class="col-sm-4">
+            <spam>学年:</spam>
+          </div>
+          <div class="col-sm-6">
+            <spam>希望職種:</spam>
+          </div>
           <a href="#" class="btn btn-primary disabled"  role="button" aria-pressed="true">いいね😆　{{ item.good }}件</a>
-          <a href="#" class="btn btn-secondary disabled"  role="button" aria-pressed="true">今度話しましょう！😉　{{ item.read　}}人</a>
+          <a href="#" class="btn btn-secondary disabled"  role="button" aria-pressed="true">話したい😉　{{ item.read　}}人</a>
         </div>
 
       </div>
     {% endfor %}
-    <a href="{% url 'logout' %}">logout</a><!-- ログアウトリンクを作る -->
 </div>
 {% else %}
 ログアウトされてるけん、もう1回ログインしんさいね。
 {% endif %}
 {% endblock content %}
-
-
