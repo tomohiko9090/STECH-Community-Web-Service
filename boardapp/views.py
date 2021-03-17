@@ -1,11 +1,15 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404,redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect
-from .models import BoardModel
+from .models import BoardModel,Item, OrderItem, Order
 from django.contrib.auth.decorators import login_required
 from django.views.generic import CreateView
 from django.urls import reverse_lazy
+from django.utils import  timezone
+from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import View
 
 # Create your views here.
 
@@ -84,3 +88,51 @@ def like_listfunc(request):
 def chat_listfunc(request):
     object_list = BoardModel.objects.all()
     return render(request, 'chat_list.html', {'object_list':object_list})
+
+
+
+class  IndexView(View):
+    def get(self, request, *args, **kwargs):
+        item_data = Item.objects.all()
+        return render(request, 'index.html',{
+            'item_data' : item_data
+        })
+
+class ItemDetailView(View):
+    def get(self, request, *args, **kwargs):
+        item_data = Item.objects.get(slug=self.kwargs['slug'])
+        return render(request, 'product.html',{
+            'item_data': item_data
+        })
+
+@login_required
+def addItem(request, slug):
+    item = get_object_or_404(Item, slug=slug)
+    order_item, created = OrderItem.objects.get_or_create(
+        item = item,
+        user=request.user,
+        ordered=False
+    )
+    order = Order.objects.filter(user=request.user, ordered =False)
+
+    if order.exists():
+        order = order[0]
+       
+        order.items.add(order_item)
+    else:
+        order = Order.objects.create(user = request.user, ordered_date = timezone.now())
+        order.items.add(order_item)
+
+    return redirect('order')
+
+class OrderView(LoginRequiredMixin,View):
+    def get(self, request, *args, **kwargs):
+        try:
+            order = Order.objects.get(user = request.user, ordered=False)
+            context ={
+                'order': order
+            }
+            return render(request, 'order.html',context)
+        except ObjectDoesNotExist:
+            return render(request, 'order.html')
+            
