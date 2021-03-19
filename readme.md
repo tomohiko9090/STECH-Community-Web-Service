@@ -6,7 +6,13 @@
   
 ## 使い方
 1. このリポジトリをクローン
-2. 
+2. 以下を実行
+
+```
+python3 manage.py makemigrations
+python3 manage.py migrate
+python3 manage.py runserver
+```
 
 ## これからの進め方  
 1. 各自ファイルの編集
