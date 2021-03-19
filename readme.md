@@ -13,7 +13,7 @@ python3 manage.py makemigrations
 python3 manage.py migrate
 python3 manage.py runserver
 ```
-3. ブラウザでhttp://127.0.0.1:8000/listを開く
+3. ブラウザで http://127.0.0.1:8000/list を開く
 
 ## これからの進め方  
 1. 各自ファイルの編集
